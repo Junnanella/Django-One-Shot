@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<main>
+    <div>
+        <a href="{% url "todolists" %}">Back to List Page</a>
+        <a href="{% url "todolist_update" todolist.pk %}">Edit List</a>
+        <a href="{% url "todolist_delete" todolist.pk %}">Delete List</a>
+    </div>
+    <br>
+    <h1>{{ todolist.name }}</h1>
+    {% for item in todolist.items.all %}
+        <a href="{% url "todoitem_update" item.pk %}">{{item.task}}</a>
+    {% endfor %}
+</main>
+{% endblock main_content %}
