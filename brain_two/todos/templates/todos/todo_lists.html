@@ -4,5 +4,9 @@
   <br />
   <a href="{% url "todolist_create" %}">Create a new list</a>
   <a href="{% url "todoitem_create" %}">Create a new item</a>
+  <br>
+  {% for list in todolist_list %}
+  <a href="{% url "todolist_detail" todolist.pk %}">{{ list.name }}</a>
+  {% endfor %}
 </main>
 {% endblock main_content %}
