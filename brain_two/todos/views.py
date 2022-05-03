@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import (
     ListView,
     CreateView,
@@ -20,10 +20,10 @@ class TodoListCreateView(CreateView):
     template_name = "todos/todolist_create.html"
     fields = ["name"]
 
-    def form_invalid(self, form):
-        context = super().form_invalid(form)
-
-    success_url = reverse_lazy("todos/todo_lists.html")
+    def form_valid(self, form):
+        todolist = form.save(commit=False)
+        todolist.save()
+        return redirect("todolist_detail", pk=todolist.id)
 
 
 class TodoListDetailView(DetailView):
@@ -35,20 +35,17 @@ class TodoListDeleteView(DeleteView):
     model = TodoList
     template_name = "todos/todolist_delete.html"
 
-    def form_invalid(self, form):
-        context = super().form_invalid(form)
-
-    success_url = reverse_lazy("todos/todo_lists.html")
+    success_url = reverse_lazy("todolists")
 
 
 class TodoListUpdateView(UpdateView):
     model = TodoList
     template_name = "todos/todolist_update.html"
 
-    def form_invalid(self, form):
-        context = super().form_invalid(form)
+    def form_valid(self, form):
+        context = super().form_valid(form)
 
-    success_url = reverse_lazy("todos/todo_lists.html")
+    success_url = reverse_lazy("todolists")
 
 
 class TodoItemCreateView(CreateView):
@@ -56,17 +53,17 @@ class TodoItemCreateView(CreateView):
     template_name = "todos/todoitem_create.html"
     fields = ["task", "due_date", "is_completed", "list"]
 
-    def form_invalid(self, form):
-        context = super().form_invalid(form)
+    def form_valid(self, form):
+        context = super().form_valid(form)
 
-    success_url = reverse_lazy("todos/todo_lists.html")
+    success_url = reverse_lazy("todolists")
 
 
 class TodoItemUpdateView(UpdateView):
     model = TodoItem
     template_name = "todos/todoitem_update.html"
 
-    def form_invalid(self, form):
-        context = super().form_invalid(form)
+    def form_valid(self, form):
+        context = super().form_valid(form)
 
-    success_url = reverse_lazy("todos/todo_lists.html")
+    success_url = reverse_lazy("todolists")
