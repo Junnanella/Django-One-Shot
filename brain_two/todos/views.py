@@ -28,7 +28,7 @@ class TodoListDetailView(DetailView):
 class TodoItemCreateView(CreateView):
     model = TodoItem
     template_name = "todos/todoitem_create.html"
-    fields = ["task", "due_date", "is_completed", "lists"]
+    fields = ["task", "due_date", "is_completed", "list"]
 
     def form_invalid(self, form):
         context = super().form_invalid(form)
