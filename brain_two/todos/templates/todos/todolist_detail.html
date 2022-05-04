@@ -9,8 +9,19 @@
     </div>
     <br>
     <h1>{{ todolist.name }}</h1>
-    {% for item in todolist.items.all %}
-        <a href="{% url "todoitem_update" item.pk %}">{{item.task}}</a>
-    {% endfor %}
+    <table>
+        <thead>
+            <th>Task Name</th>
+            <th>Due Date</th>
+        </thead>
+        <tbody>
+            {% for item in todolist.items.all %}
+                <tr>
+                <td><a href="{% url "todoitem_update" item.pk %}">{{item.task}}</a></td>
+                <td>{{item.due_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </main>
 {% endblock main_content %}
