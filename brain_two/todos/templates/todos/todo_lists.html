@@ -5,8 +5,27 @@
   <a href="{% url "todolist_create" %}">Create a new list</a>
   <a href="{% url "todoitem_create" %}">Create a new item</a>
   <br>
-  {% for list in todolist_list %}
-  <a href="{% url 'todolist_detail' list.pk %}">{{ list.name }}</a>
-  {% endfor %}
+  <table>
+    {% if todolist_list|length > 0 %}
+    <thead>
+      <th>List Name</th>
+      <th>Number of Items</th>
+    </thead>
+    <tbody>
+        {% for list in todolist_list %}
+        <tr>
+          <td>
+          <a href="{% url 'todolist_detail' list.pk %}">{{ list.name }}</a>
+          </td>
+          <td>
+            {{ list.items.all|length }}
+          </td>
+        </tr>
+        {% empty %}
+        <h3>No Todo Lists</h3>
+        {% endfor %}
+    </tbody>
+  
+    {% endif %}
 </main>
 {% endblock main_content %}
