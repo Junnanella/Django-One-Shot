@@ -63,8 +63,9 @@ class TodoItemCreateView(CreateView):
 class TodoItemUpdateView(UpdateView):
     model = TodoItem
     template_name = "todos/todoitem_update.html"
+    fields = ["task", "due_date", "is_completed", "list"]
 
     def form_valid(self, form):
-        context = super().form_valid(form)
-
-    success_url = reverse_lazy("todolists")
+        todoitem = form.save(commit=False)
+        todoitem.save()
+        return redirect("todolist_detail", pk=todoitem.id)
