@@ -41,11 +41,12 @@ class TodoListDeleteView(DeleteView):
 class TodoListUpdateView(UpdateView):
     model = TodoList
     template_name = "todos/todolist_update.html"
+    fields = ["name"]
 
     def form_valid(self, form):
-        context = super().form_valid(form)
-
-    success_url = reverse_lazy("todolists")
+        todolist = form.save(commit=False)
+        todolist.save()
+        return redirect("todolist_detail", pk=todolist.id)
 
 
 class TodoItemCreateView(CreateView):
@@ -54,9 +55,9 @@ class TodoItemCreateView(CreateView):
     fields = ["task", "due_date", "is_completed", "list"]
 
     def form_valid(self, form):
-        context = super().form_valid(form)
-
-    success_url = reverse_lazy("todolists")
+        todoitem = form.save(commit=False)
+        todoitem.save()
+        return redirect("todolist_detail", pk=todoitem.id)
 
 
 class TodoItemUpdateView(UpdateView):
